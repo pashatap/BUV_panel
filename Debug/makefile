@@ -61,8 +61,8 @@ all: main-build
 main-build: BUV_panel.elf secondary-outputs
 
 # Tool invocations
-BUV_panel.elf BUV_panel.map: $(OBJS) $(USER_OBJS) D:\BUV_panel\STM32F429BITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BUV_panel.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\BUV_panel\STM32F429BITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BUV_panel.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+BUV_panel.elf BUV_panel.map: $(OBJS) $(USER_OBJS) C:\Users\SHIT_OF_SIEMENS\STM32CubeIDE\workspace_1.10.1\BUV_panel\STM32F429BITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BUV_panel.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\SHIT_OF_SIEMENS\STM32CubeIDE\workspace_1.10.1\BUV_panel\STM32F429BITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BUV_panel.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

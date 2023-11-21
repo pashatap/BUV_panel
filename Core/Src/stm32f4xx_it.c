@@ -58,14 +58,21 @@ uint8_t screen_save = 1;
 
 extern uint8_t PWM_launch;
 
-extern Settings Settings_DB;
+extern Settings_panel Settings_DB;
 
 extern InterfaceControlDB Control_DB;
 
 extern PassWords PassW_block;
 
-uint32_t brightness_disp = 0;
-uint32_t brightness_clav = 0;
+extern Algorithm_variables ALG_DB;
+
+extern uint32_t brightness_disp;
+extern uint32_t brightness_clav;
+
+extern Settings_Station BUV_settings_global;
+
+extern BUV_realtime_vars BUV_RT_VALS;
+
 
 uint32_t timer_1;
 uint32_t timer_2;
@@ -219,23 +226,15 @@ void SysTick_Handler(void)
 
 	if(PWM_launch)
 	{
-
 		if(brightness_disp < 10000){brightness_disp += 1;}
 		if(brightness_clav < 10000){brightness_clav += 1;}
-
-		float temp  = brightness_disp;
-		float temp2 = Settings_DB.brightness_disp;
-		temp2 /= 100;
-		temp *= temp2;
-		TIM4->CCR3 = temp;
-
-		temp  = brightness_clav;
-		temp2 = Settings_DB.brightness_clav;
-		temp2 /= 100;
-		temp *= temp2;
-		TIM4->CCR4 = temp;
-
 	}
+
+	TimedBitValue_handler(&ALG_DB.clearing_pressure_filter_1);
+	TimedBitValue_handler(&ALG_DB.clearing_pressure_filter_2);
+	TimedBitValue_handler(&ALG_DB.clearing_water_filter_1);
+	TimedBitValue_handler(&ALG_DB.clearing_water_filter_2);
+	TimedBitValue_handler(&ALG_DB.clearing_water_filter_3);
 
 	KeyboardCheck();
 
@@ -301,11 +300,11 @@ void KeyboardWork(void)
 
 	if(KeysRetain.Up & KeysRetain.Down)
 	{
-		screen 			= 21;
-		Control_DB.MenuPointer     = 0;
+		screen 					= 21;
+		Control_DB.MenuPointer  = 0;
 		Control_DB.RazrPointer 	= 0;
 	}
-	if(KeysFlash.ESC & (screen < 3))
+	if(KeysFlash.ESC & (screen < 5))
 	{
 		screen_save 	= screen;
 		screen 			= 20;
@@ -316,7 +315,7 @@ void KeyboardWork(void)
 		screen = screen_save;
 		KeysFlash.ESC 	= 0;
 	}
-	if(KeysFlash.ESC & ((screen == 3) | (screen == 4) | (screen == 21)))
+	if(KeysFlash.ESC & (((screen >= 5) & (screen <= 7)) | (screen == 21)))
 	{
 		screen 			= 1;
 		screen_save 	= 1;
@@ -357,37 +356,154 @@ void KeyboardWork(void)
 	if(KeysFlash.ENT)
 	{
 
+
+
 		if(screen == 3)
+		{
+
+			if(PassW_block.DataClearingUnlock)
+			{
+				switch(Control_DB.MenuPointer)
+				{
+					case 1:
+						BUV_RT_VALS.ANN_1.Pump.MotoClock = 0;
+					break;
+					case 2:
+						BUV_RT_VALS.ANN_2.Pump.MotoClock = 0;
+					break;
+					case 3:
+						BUV_RT_VALS.ANN_3.Pump.MotoClock = 0;
+					break;
+					case 4:
+						BUV_RT_VALS.EMULSION_NODE.Pump_circulation.MotoClock = 0;
+					break;
+					case 5:
+						BUV_RT_VALS.EMULSION_NODE.Pump_concentrate.MotoClock = 0;
+					break;
+					case 6:
+						BUV_RT_VALS.EMULSION_NODE.Pump_concentrate_injection.MotoClock = 0;
+					break;
+					case 7:
+						BUV_RT_VALS.ANN_1.Unload_counter = 0;
+					break;
+					case 8:
+						BUV_RT_VALS.ANN_2.Unload_counter = 0;
+					break;
+					case 9:
+						BUV_RT_VALS.ANN_3.Unload_counter = 0;
+					break;
+					case 10:
+						BUV_RT_VALS.FILT_NODE.Flush_valve_1_counter = 0;
+					break;
+					case 11:
+						BUV_RT_VALS.FILT_NODE.Flush_valve_2_counter = 0;
+					break;
+					case 12:
+						BUV_RT_VALS.EMULSION_NODE.Filter_flow_valve_1_counter = 0;
+					break;
+					case 13:
+						BUV_RT_VALS.EMULSION_NODE.Filter_flow_valve_2_counter = 0;
+					break;
+					case 14:
+						BUV_RT_VALS.EMULSION_NODE.Filter_flow_valve_3_counter = 0;
+					break;
+					case 15:
+						BUV_RT_VALS.FILT_NODE.Drain_filter_flowmeter.Volume = 0;
+					break;
+					case 16:
+						BUV_RT_VALS.FILT_NODE.Emulsion_flowmeter.Volume = 0;
+					break;
+					case 17:
+						BUV_RT_VALS.EMULSION_NODE.Flowmeter_concent.Volume = 0;
+					break;
+					case 18:
+						BUV_RT_VALS.EMULSION_NODE.Flowmeter_water.Volume = 0;
+					break;
+					case 19:
+						BUV_RT_VALS.EMULSION_NODE.Node_work_counter = 0;
+					break;
+				}
+			}
+
+			if(PassW_block.PassWord != PassW_block.PassWord_DATA)
+			{
+				PassW_block.PassWord = 0;
+			}
+			else
+			{
+				PassW_block.PassWord = 0;
+				PassW_block.DataClearingUnlock = 1;
+			}
+		}
+
+		if(screen == 4)
+		{
+			switch(Control_DB.MenuPointer)
+			{
+				case 0:
+					ALG_DB.clearing_pressure_filter_1.state = 1;
+				break;
+				case 1:
+					ALG_DB.clearing_pressure_filter_2.state = 1;
+				break;
+				case 2:
+					ALG_DB.clearing_water_filter_1.state = 1;
+				break;
+				case 3:
+					ALG_DB.clearing_water_filter_2.state = 1;
+				break;
+				case 4:
+					ALG_DB.clearing_water_filter_3.state = 1;
+				break;
+			}
+		}
+
+		if(screen == 5)
 		{
 			if(PassW_block.PassWord != PassW_block.PassWord_true)
 			{
 				if(Control_DB.RazrPointer)
 				{
 					PassW_block.PassFalseTimer = 1000;
+					PassW_block.PassWord       =    0;
 				}
 			}
 			else
 			{
-				screen = 4;
+				screen = 6; // переход после ввода правильного пароля
 			}
 		}
 
-
-
-		if(Control_DB.RazrPointer)
+		if((screen == 7) & (Control_DB.MenuPointer == 4))
 		{
-			Control_DB.RazrPointer = 0;
+			BUV_settings_global.work_on_water_enable = !BUV_settings_global.work_on_water_enable;
 		}
-		else
+
+
+
+		if(Control_DB.RazrPointerMAX)
 		{
-			Control_DB.RazrPointer = 1;
+			if(Control_DB.RazrPointer)
+			{
+				Control_DB.RazrPointer = 0;
+			}
+			else
+			{
+				if((screen == 3) | (screen == 5))
+				{
+					Control_DB.RazrPointer = 4;
+				}
+				else
+				{
+					Control_DB.RazrPointer = 1;
+				}
+			}
 		}
 
 		if((screen == 21) & (Control_DB.MenuPointer == 5))
 		{
 			Settings_DB.FlashWriteFlag = 1;
 		}
-
 
 
 
@@ -419,15 +535,15 @@ void KeyboardWork(void)
 	}
 
 
-	if((screen != 21) & (screen != 4))
+	if(screen <= 5)
 	{
 		if(scr_plus) {screen++;}
 		if(scr_minus){screen--;}
 
 		if(KeysFlash.Right | KeysFlash.Left)
 		{
-			if(screen > 3){screen = 1;}
-			if(screen < 1){screen = 3;}
+			if(screen > 5){screen = 1;}
+			if(screen < 1){screen = 5;}
 		}
 	}
 
@@ -505,7 +621,7 @@ void KeyboardClear(void)
 	KeysFlash.Down 			= 0;
 	KeysFlash.Up 			= 0;
 	KeysFlash.PressDown 	= 0;
-+	KeysFlash.AHH3_Stop 	= 0;
+	KeysFlash.AHH3_Stop 	= 0;
 	KeysFlash.AutoPusk 		= 0;
 	KeysFlash.AutoStop 		= 0;
 	KeysFlash.AHH1_Stop 	= 0;

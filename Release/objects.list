@@ -2,6 +2,7 @@
 "./Core/Src/MB_Slave_Lib.o"
 "./Core/Src/SPI_flash.o"
 "./Core/Src/Screens.o"
+"./Core/Src/algorithm_handler.o"
 "./Core/Src/fonts.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"

@@ -34,12 +34,31 @@ typedef struct
 
 	int32_t  brightness_disp;
 	int32_t  brightness_clav;
-	int32_t  pump_mode;
+
+} Settings_panel; // настройки которые задаются и сохраняются только в этой панели
+
+typedef struct
+{
 
 
 
 
-} Settings;
+
+	uint8_t pump_mode;							//
+
+
+
+
+
+	// Заводские настройки
+	int32_t	Max_ANN_operation; 					// Макс насосов работающих одновременно
+	int32_t	Max_Pressure;						// Максимальное давление которое можно выставить
+	int32_t	Major_repear_period;				// Срок капитального ремонта (часов)
+	int32_t	emulsion_off_level;					// Уровень эмульсии при котором отключается станция
+	uint8_t	work_on_water_enable;   			// Работа на воде разрешена
+	int32_t	water_work_conconcentrate_level;	// Настройка уровня концентрата при котором предупреждение что работаем на воде
+
+} Settings_Station; // настройки для платы управления
 
 
 typedef struct
@@ -79,6 +98,125 @@ typedef struct
 
 } ChahgeBlockDB;
 
+typedef struct
+{
+
+	uint8_t state;
+	uint8_t state_mirror;
+	uint16_t timer;
+	uint16_t default_timer;
+
+} TimedBitValue;
+
+
+
+
+typedef struct
+{
+
+	TimedBitValue clearing_pressure_filter_1;
+	TimedBitValue clearing_pressure_filter_2;
+	TimedBitValue clearing_water_filter_1;
+	TimedBitValue clearing_water_filter_2;
+	TimedBitValue clearing_water_filter_3;
+
+} Algorithm_variables;
+
+
+typedef struct
+{
+	int16_t Flow;		// мгновенный расход (0.1 л/мин)
+	int32_t Volume;		// мгновенный расход (0.001  м3)
+} FlowMeter; // переменные расходомера
+
+typedef struct
+{
+
+	uint8_t State;							// Состояние (включен / выключен)
+	uint8_t Bimetal;						// состояние тепловой бимет защиты 	(1-сработка)
+	int32_t MotoClock;						// Моточасы
+
+} engine; // переменные мотора
+
+typedef struct
+{
+
+	engine Pump;
+
+	int16_t Out_Pressure;					// Давление на напоре	(0.1  МПа)
+	int16_t Oil_Pressure;					// Давление масла		(0.01 МПа)
+	int16_t Oil_Temperature;				// Температура масла	(0.1 *С)
+
+	uint8_t Unload;							// состояние клапана разгрузки 					(вкл/выкл)
+
+	uint32_t Unload_counter;				// счётчик сработок автомата разгрузки
+
+} ANN; // переменные агрегата насосного
+
+typedef struct
+{
+
+	int16_t Out_Pressure;					// Давление в магистрали						(0.1  МПа)
+	int16_t Pressure_before_press_filter;	// Давление перед сливным напорным фильтром		(0.1  МПа)
+	int16_t Pressure_before_filter;			// Давление перед сливным фильтром				(0.1  МПа)
+	int16_t Pressure_behind_filter;			// Давление за    сливным фильтром				(0.1  МПа)
+
+	FlowMeter Drain_filter_flowmeter;		// Расходомер на сливном фильтре
+	FlowMeter Emulsion_flowmeter;			// Расходомер эмульсии
+
+	uint8_t Flush_valve_1;					// Клапан промывки 1
+	uint8_t Flush_valve_2;					// Клапан промывки 2
+
+	uint32_t Flush_valve_1_counter;			// Счётчик сработок клапана промывки 1
+	uint32_t Flush_valve_2_counter;			// Счётчик сработок клапана промывки 2
+
+} Filters_Node; // переменные узла фильтров
+
+typedef struct
+{
+
+	engine Pump_circulation;				// Насос циркуляционный
+	engine Pump_concentrate;				// Насос концентрата
+	engine Pump_concentrate_injection;		// Насос закачки концентрата
+
+	FlowMeter Flowmeter_water;				// Расходомер воды
+	FlowMeter Flowmeter_concent;			// Расходомер концентрата
+
+	int16_t Pressure_before_water_filters;	// Давление перед фильтрами воды 				(0.1  МПа)
+	int16_t Pressure_behind_water_filters;	// Давление после фильтров  воды 				(0.1  МПа)
+
+	uint8_t Filter_flow_valve_1;			// Клапан промывки фильтра 1
+	uint8_t Filter_flow_valve_2;			// Клапан промывки фильтра 2
+	uint8_t Filter_flow_valve_3;			// Клапан промывки фильтра 3
+
+	uint32_t Filter_flow_valve_1_counter;	// Счётчик сработок клапана промывки фильтра 1
+	uint32_t Filter_flow_valve_2_counter;	// Счётчик сработок клапана промывки фильтра 2
+	uint32_t Filter_flow_valve_3_counter;	// Счётчик сработок клапана промывки фильтра 3
+
+	uint8_t Water_valve;					// Клапан воды
+	uint8_t Concentrate_valve;				// Клапан концентрата
+
+	uint32_t Node_work_counter;				// Количество сработок блока приготовления эмульсии
+
+} Emulsion_mixer;
+
+typedef struct
+{
+
+	int16_t Ustauka; 				// Уставка давления текущая
+	int16_t TANK_level; 			// Уровень 		в баке эмульсии
+	int16_t TANK_temperature;		// Температура 	в баке
+
+	ANN ANN_1;						// Переменные Агрегата 1
+	ANN ANN_2;						// Переменные Агрегата 2
+	ANN ANN_3;						// Переменные Агрегата 3
+
+	Filters_Node FILT_NODE;			// Узел фильтров
+
+	Emulsion_mixer EMULSION_NODE; 	// Устройство приготовления эмульсии (УПЭ)
+
+} BUV_realtime_vars; // Блок переменных всего бува
+
 
 
 
@@ -88,6 +226,9 @@ typedef struct
 	int32_t PassWord;
 	int32_t PassWord_true;
 	int32_t PassFalseTimer;
+
+	int32_t PassWord_DATA;
+	uint8_t DataClearingUnlock;
 
 } PassWords;
 

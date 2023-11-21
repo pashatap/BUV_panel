@@ -60,6 +60,9 @@ extern keyboard KeysRetain;
 extern keyboard KeysFlash;
 extern keyboard KeysMirror;
 
+uint32_t brightness_disp = 0;
+uint32_t brightness_clav = 0;
+
 __IO UART_Slave_DB Slave_1;
 FMC_SDRAM_CommandTypeDef command;
 
@@ -98,7 +101,6 @@ uint32_t RasrPointerColor 		= 0xFF0000;
 
 
 int16_t Val3 = 12345;
-int32_t motoclock = 1234567890;
 
 uint8_t screen			= 1;
 uint8_t screen_mirror	= 1;
@@ -109,6 +111,12 @@ uint8_t screen_event	= 0;
 uint8_t PWM_launch = 0;
 
 PassWords PassW_block = {0};
+
+Algorithm_variables ALG_DB = {0};
+
+Settings_Station BUV_settings_global = {0};
+
+BUV_realtime_vars BUV_RT_VALS = {0};
 
 /* USER CODE END PV */
 
@@ -128,8 +136,9 @@ static void MX_TIM5_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-Settings 			Settings_DB;
+Settings_panel 		Settings_DB;
 InterfaceControlDB 	Control_DB;
+Settings_Station	BUV_settings;
 /* USER CODE END 0 */
 
 /**
@@ -142,6 +151,7 @@ int main(void)
 
 	PassW_block.PassWord 		=    0;
 	PassW_block.PassWord_true 	= 1234;
+	PassW_block.PassWord_DATA   = 3850;
 
 	memcpy(&Settings_DB, 0x08060000, sizeof(Settings_DB)); // чтение настроек с флеш
 	Settings_DB.FlashWriteFlag	 = 0;
@@ -154,7 +164,6 @@ int main(void)
 		Settings_DB.RS485_Stops = 1;
 		Settings_DB.brightness_disp = 100;
 		Settings_DB.brightness_clav = 100;
-		Settings_DB.pump_mode = 1;
 	}
 
 	Slave_1.PORT    		= UART7_BASE;
@@ -223,6 +232,17 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 
 
+
+
+
+
+	ALG_DB.clearing_pressure_filter_1.default_timer = 1000;
+	ALG_DB.clearing_pressure_filter_2.default_timer = 1000;
+	ALG_DB.clearing_water_filter_1.default_timer	= 1000;
+	ALG_DB.clearing_water_filter_2.default_timer	= 1000;
+	ALG_DB.clearing_water_filter_3.default_timer	= 1000;
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -230,59 +250,59 @@ int main(void)
   while (1)
   {
 
+	if(PWM_launch)
+	{
+		float temp  = brightness_disp;
+		float temp2 = Settings_DB.brightness_disp;
+		temp2 /= 100;
+		temp *= temp2;
+		TIM4->CCR3 = temp;
 
-		if(Settings_DB.FlashWriteFlag)
+		temp  = brightness_clav;
+		temp2 = Settings_DB.brightness_clav;
+		temp2 /= 100;
+		temp *= temp2;
+		TIM4->CCR4 = temp;
+	} // работа с подсветкой
+
+	if(Settings_DB.FlashWriteFlag)
+	{
+
+		__disable_irq (); // запретить прерывания
+
+		HAL_FLASH_Unlock();
+
+		FLASH_Erase_Sector(FLASH_SECTOR_7, FLASH_VOLTAGE_RANGE_1); // стирание сектора 7 (0x08060000)
+
+		while(FLASH->SR & 0x01){;} // Ждем пока снимется флаг BSY=
+
+		uint8_t massive[sizeof(Settings_DB)];
+		memcpy(&massive, &Settings_DB, sizeof(Settings_DB));
+
+		for(flash_i = 0; flash_i < sizeof(Settings_DB); flash_i++)
 		{
+			HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, 0x08060000 + flash_i, massive[flash_i]);
+		}
 
-			__disable_irq (); // запретить прерывания
+		HAL_FLASH_Lock();
+		__enable_irq ();  // разрешить прерывания
 
-			HAL_FLASH_Unlock();
+		MX_UART7_Init();
 
-			FLASH_Erase_Sector(FLASH_SECTOR_7, FLASH_VOLTAGE_RANGE_1); // стирание сектора 7 (0x08060000)
+		screen 						= 1;
+		Control_DB.MenuPointer 		= 0;
+		Settings_DB.FlashWriteFlag 	= 0;
+		Control_DB.RazrPointer      = 0;
+		Slave_1.MB_Addr 			= Settings_DB.RS485_ADDR;
 
-			while(FLASH->SR & 0x01){;} // Ждем пока снимется флаг BSY=
-
-			uint8_t massive[sizeof(Settings_DB)];
-			memcpy(&massive, &Settings_DB, sizeof(Settings_DB));
-
-			for(flash_i = 0; flash_i < sizeof(Settings_DB); flash_i++)
-			{
-				HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, 0x08060000 + flash_i, massive[flash_i]);
-			}
-
-			HAL_FLASH_Lock();
-			__enable_irq ();  // разрешить прерывания
-
-			MX_UART7_Init();
-
-			screen 						= 1;
-			Control_DB.MenuPointer 		= 0;
-			Settings_DB.FlashWriteFlag 	= 0;
-			Control_DB.RazrPointer      = 0;
-			Slave_1.MB_Addr 			= Settings_DB.RS485_ADDR;
-
-		} // перепись настроек flash
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	} // перепись настроек flash
 
 	Set_Screen(screen);
+
+
+
+
+
 
 
 
