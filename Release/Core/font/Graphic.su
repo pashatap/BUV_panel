@@ -1,0 +1,4 @@
+../Core/font/Graphic.c:7:6:Zaliv	24	static
+../Core/font/Graphic.c:13:6:ZalivARGB	8	static
+../Core/font/Graphic.c:19:6:Draw_Rectangle	32	static
+../Core/font/Graphic.c:31:6:Picture	16	static

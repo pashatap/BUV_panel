@@ -1,0 +1,14 @@
+../Core/Src/ADC_functions.c:17:6:ADC_preparation_simple	0	static
+../Core/Src/ADC_functions.c:41:6:ADC_preparation	0	static
+../Core/Src/ADC_functions.c:96:6:ADC_Float_USR	32	static
+../Core/Src/ADC_functions.c:134:6:Float_Approx	40	static
+../Core/Src/ADC_functions.c:158:6:Float_Approx_X6	56	static
+../Core/Src/ADC_functions.c:186:6:Channel_Reset	0	static
+../Core/Src/ADC_functions.c:245:6:Channel_Soft_Switch	0	static
+../Core/Src/ADC_functions.c:276:6:Z_filter	0	static
+../Core/Src/ADC_functions.c:79:6:ADC_deafult	8	static
+../Core/Src/ADC_functions.c:292:6:frequency_meter	0	static
+../Core/Src/ADC_functions.c:337:6:phase_delta_meter	24	static
+../Core/Src/ADC_functions.c:385:6:MAX	0	static
+../Core/Src/ADC_functions.c:400:6:MIN	0	static
+../Core/Src/ADC_functions.c:415:6:Power_meter	8	static

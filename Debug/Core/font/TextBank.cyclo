@@ -1,0 +1,5 @@
+TextBank.c:185:6:PrintTimeCode	16
+TextBank.c:288:6:Draw_RU_Event_From_Database_32	2
+TextBank.c:302:6:Draw_RU_Event_From_Database_32_To_MainScreen	2
+TextBank.c:315:6:PrintAlarmString	2
+TextBank.c:329:6:PrintAlarmStringForMain	2

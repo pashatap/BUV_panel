@@ -1,0 +1,5 @@
+../Core/font/TextBank.c:185:6:PrintTimeCode	128	static
+../Core/font/TextBank.c:288:6:Draw_RU_Event_From_Database_32	144	static
+../Core/font/TextBank.c:302:6:Draw_RU_Event_From_Database_32_To_MainScreen	144	static
+../Core/font/TextBank.c:315:6:PrintAlarmString	48	static
+../Core/font/TextBank.c:329:6:PrintAlarmStringForMain	48	static

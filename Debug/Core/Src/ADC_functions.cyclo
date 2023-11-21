@@ -1,0 +1,14 @@
+ADC_functions.c:17:6:ADC_preparation_simple	3
+ADC_functions.c:41:6:ADC_preparation	8
+ADC_functions.c:79:6:ADC_deafult	1
+ADC_functions.c:96:6:ADC_Float_USR	9
+ADC_functions.c:134:6:Float_Approx	1
+ADC_functions.c:158:6:Float_Approx_X6	1
+ADC_functions.c:186:6:Channel_Reset	1
+ADC_functions.c:245:6:Channel_Soft_Switch	1
+ADC_functions.c:276:6:Z_filter	2
+ADC_functions.c:292:6:frequency_meter	8
+ADC_functions.c:337:6:phase_delta_meter	6
+ADC_functions.c:385:6:MAX	3
+ADC_functions.c:400:6:MIN	3
+ADC_functions.c:415:6:Power_meter	1
