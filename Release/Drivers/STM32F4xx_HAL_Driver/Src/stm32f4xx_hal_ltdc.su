@@ -30,7 +30,7 @@
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1707:19:HAL_LTDC_SetPixelFormat_NoReload	16	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1750:19:HAL_LTDC_SetAlpha_NoReload	16	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1793:19:HAL_LTDC_SetAddress_NoReload	16	static
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1840:19:HAL_LTDC_SetPitch_NoReload	12	static
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1840:19:HAL_LTDC_SetPitch_NoReload	8	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1907:19:HAL_LTDC_ConfigColorKeying_NoReload	0	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1941:19:HAL_LTDC_EnableColorKeying_NoReload	0	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c:1974:19:HAL_LTDC_DisableColorKeying_NoReload	0	static

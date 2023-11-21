@@ -153,6 +153,17 @@ int main(void)
 	PassW_block.PassWord_true 	= 1234;
 	PassW_block.PassWord_DATA   = 3850;
 
+  BUV_settings.time_of_work_pump1 = 5;
+  BUV_settings.time_of_work_pump2 = 5;
+  BUV_settings.time_of_work_pump3 = 5;
+  BUV_settings.flushing_filter = 1;
+  BUV_settings.conc_emul = 15;
+  BUV_settings.pump_mode = 1;
+  BUV_settings.time_flushing = 2;
+  BUV_settings.work_pump1 = 1;
+  BUV_settings.work_pump2 = 1;
+  BUV_settings.work_pump3 = 1;
+
 	memcpy(&Settings_DB, 0x08060000, sizeof(Settings_DB)); // чтение настроек с флеш
 	Settings_DB.FlashWriteFlag	 = 0;
 	Settings_DB.RS485_Parity	 = 0;

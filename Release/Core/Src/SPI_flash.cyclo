@@ -1,5 +1,5 @@
-SPI_flash.c:17:6:SPI_command_transmit	1
-SPI_flash.c:27:6:SPI_recieve_256	1
-SPI_flash.c:49:6:SPI_transmit_256	1
-SPI_flash.c:72:6:Flash_Erase	1
-SPI_flash.c:90:6:delay_flash	1
+../Core/Src/SPI_flash.c:17:6:SPI_command_transmit	1
+../Core/Src/SPI_flash.c:27:6:SPI_recieve_256	1
+../Core/Src/SPI_flash.c:49:6:SPI_transmit_256	1
+../Core/Src/SPI_flash.c:72:6:Flash_Erase	1
+../Core/Src/SPI_flash.c:90:6:delay_flash	1

@@ -15,7 +15,7 @@
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:534:19:HAL_SDRAM_Write_16b	20	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:593:19:HAL_SDRAM_Read_32b	12	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:645:19:HAL_SDRAM_Write_32b	12	static
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:696:19:HAL_SDRAM_Read_DMA	16	static
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:696:19:HAL_SDRAM_Read_DMA	24	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:749:19:HAL_SDRAM_Write_DMA	16	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:1012:19:HAL_SDRAM_WriteProtection_Enable	8	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c:1044:19:HAL_SDRAM_WriteProtection_Disable	8	static

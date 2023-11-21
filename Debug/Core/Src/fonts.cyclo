@@ -1,2 +1,2 @@
-fonts.c:18:6:draw_font8x14	6
-fonts.c:52:6:set_pixel_color	1
+../Core/Src/fonts.c:18:6:draw_font8x14	6
+../Core/Src/fonts.c:52:6:set_pixel_color	1

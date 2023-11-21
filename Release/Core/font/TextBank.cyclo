@@ -1,5 +1,5 @@
-TextBank.c:185:6:PrintTimeCode	14
-TextBank.c:288:6:Draw_RU_Event_From_Database_32	2
-TextBank.c:302:6:Draw_RU_Event_From_Database_32_To_MainScreen	2
-TextBank.c:315:6:PrintAlarmString	2
-TextBank.c:329:6:PrintAlarmStringForMain	2
+../Core/font/TextBank.c:185:6:PrintTimeCode	14
+../Core/font/TextBank.c:288:6:Draw_RU_Event_From_Database_32	2
+../Core/font/TextBank.c:302:6:Draw_RU_Event_From_Database_32_To_MainScreen	2
+../Core/font/TextBank.c:315:6:PrintAlarmString	2
+../Core/font/TextBank.c:329:6:PrintAlarmStringForMain	2

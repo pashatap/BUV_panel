@@ -16,7 +16,7 @@
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1053:19:FMC_PCCARD_AttributeSpace_Timing_Init	0	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1082:19:FMC_PCCARD_IOSpace_Timing_Init	0	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1109:19:FMC_PCCARD_DeInit	0	static
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1180:19:FMC_SDRAM_Init	28	static
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1180:19:FMC_SDRAM_Init	24	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1242:19:FMC_SDRAM_Timing_Init	20	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1294:19:FMC_SDRAM_DeInit	0	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c:1335:19:FMC_SDRAM_WriteProtection_Enable	0	static

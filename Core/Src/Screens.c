@@ -64,6 +64,8 @@ int16_t Press_maslo;
 int16_t Temp_maslo;
 int32_t motoclock;
 
+background_zaliv Work_regim_zaliv_1 = {0};
+
 
 
 void Screens_init(void)
@@ -120,12 +122,7 @@ void Screens_init(void)
 		Short_Left_Colored_RU_DrawString_32("   Вкл   ", 		  9,  95 + shift_X,  20,      GreenColor, BasicSymbolColor, Page[1]);
 		Short_Left_Colored_RU_DrawString_32("  РАЗГРУЗКА   ", 	 14,   5 + shift_X, 140, 		RedColor, BasicSymbolColor, Page[1]);
 		Short_Left_Colored_RU_DrawString_32("тепл. защита  ", 	 14,   5 + shift_X, 170, 		RedColor, BasicSymbolColor, Page[1]);
-		/*
-		Short_Centred_DrawNumber_16(Val3, 1, 4, 0, 					 170 + shift_X,  52, 									Page[1]);
-		Short_Centred_DrawNumber_16(Val3, 2, 4, 0, 					 170 + shift_X,  82, 									Page[1]);
-		Short_Centred_DrawNumber_16(Val3, 0, 4, 0, 					 170 + shift_X, 112, 									Page[1]);
-		Centred_DrawNumber_16_32bit(motoclock, 0, 10, 0, 			 200 + shift_X, 205, 800,480,Page[1],  BackgroundColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-		*/
+		
 
 	}
 
@@ -151,21 +148,7 @@ void Screens_init(void)
 	Short_Left_Colored_RU_DrawString_32("л/м", 						 	 3, 580, 330, BackgroundColor, BasicSymbolColor, Page[1]);
 	Short_Left_Colored_RU_DrawString_32("Прокач  объем:", 				14,  13, 360, BackgroundColor, BasicSymbolColor, Page[1]);
 	Short_Left_Colored_RU_DrawString_32("(м3)", 					 	 4, 420, 360,       GrayColor, BasicSymbolColor, Page[1]);
-	/*
-	Centred_DrawNumber_16(Val3, 0, 3, 0, 700, 270, 800, 480, Page[1], BackgroundColor, BasicSymbolColor, Arial_16x25_Table, 16, 25);
-	Centred_DrawNumber_16(Val3, 0, 3, 0, 700, 330, 800, 480, Page[1], BackgroundColor, BasicSymbolColor, Arial_16x25_Table, 16, 25);
-	Centred_DrawNumber_16(Val3, 0, 3, 0, 700, 390, 800, 480, Page[1], BackgroundColor, BasicSymbolColor, Arial_16x25_Table, 16, 25);
-	Short_Centred_DrawNumber_16(Val3, 1, 4, 0, 					 			550, 242, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 1, 4, 0, 					 			550, 272, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 1, 4, 0, 					 			330, 302, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 1, 4, 0, 					 			550, 302, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 1, 6, 0, 					 			310, 334, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 1, 6, 0, 					 	 		530, 334, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 0, 6, 0, 					 			310, 364, 									 Page[1]);
-	Short_Centred_DrawNumber_16(Val3, 0, 6, 0, 					 	 		530, 364, 									 Page[1]);
-	Short_Left_Colored_RU_DrawString_32("кл.промыв.1", 	 11,   				 90, 400, 		 RedColor, BasicSymbolColor, Page[1]);
-	Short_Left_Colored_RU_DrawString_32("кл.промыв.2", 	 11,   				340, 400, 		 RedColor, BasicSymbolColor, Page[1]);
-	*/
+	
 
 	// Экран_2 (устройство эмульсии)
 	Zaliv(BackgroundColor, Page[2], 800, 480);
@@ -621,45 +604,97 @@ void Set_Screen(uint8_t screen)
 		break;
 
 		case 6:
-			Short_Left_Colored_RU_DrawString_32("Режим работы    ", 16,	30,  50, FonColor[0], BasicSymbolColor, Page[6]);
-
-			if(BUV_settings.pump_mode == 1)
+			Work_regim_zaliv_1.trigger = BUV_settings.pump_mode;
+			if(Work_regim_zaliv_1.trigger != Work_regim_zaliv_1.trigger_mirror)
 			{
+				Work_regim_zaliv_1.execute = 1;
+			}
+			Work_regim_zaliv_1.trigger_mirror = Work_regim_zaliv_1.trigger;
+			Short_Left_Colored_RU_DrawString_32("Режим работы    ", 16,	30,  50, FonColor[0], BasicSymbolColor, Page[6]);
+			Centred_DrawNumber_16_32bit_controled(&BUV_settings.pump_mode,0, 1, Control_DB.RazrPointer, 1,   0, 470, 50, 800,480, Page[6], FonColor[0], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+
+			if(BUV_settings.pump_mode)
+			{
+
 				Short_Left_Colored_RU_DrawString_32("Авто", 4,600,  50, BackgroundColor, BasicSymbolColor, Page[6]);
-				Centred_DrawNumber_16_32bit_controled(&BUV_settings.pump_mode,0, 1, Control_DB.RazrPointer, 1,   0, 470, 50, 800,480, Page[6], FonColor[0], BasicSymbolColor, Arial_11x18_Table, 11, 18);
-				Draw_Rectangle(BackgroundColor, 30,   70,  750, 600, Page[6], 800, 480);
+				
+				if(Work_regim_zaliv_1.execute)
+				{
+					Work_regim_zaliv_1.execute = 0;
+					Draw_Rectangle(BackgroundColor, 30,   68,  770, 600, Page[6], 800, 480);
+				}
+				
+				Short_Left_Colored_RU_DrawString_32("Насос АНН1", 10,30,  80, FonColor[1], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.work_pump1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 80, 800,480, Page[6], FonColor[1], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("РАЗРЕШЕНА ", 9,585,  80, BackgroundColor, BasicSymbolColor, Page[6]);
+				// Short_Left_Colored_RU_DrawString_32("ВЫКЛ ", 4,585,  80, BackgroundColor, BasicSymbolColor, Page[6]);
+				
+				Short_Left_Colored_RU_DrawString_32("Время рабАНН1", 13,30,  110, FonColor[2], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.time_of_work_pump1,0, 3, Control_DB.RazrPointer, 120,  5, 470, 110, 800,480, Page[6], FonColor[2], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("Ч", 1,585,  110, BackgroundColor, BasicSymbolColor, Page[6]);
+
+				Short_Left_Colored_RU_DrawString_32("Насос АНН2", 10,30,  140,FonColor[3], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.work_pump2,0, 1, Control_DB.RazrPointer, 1,   0, 470, 140, 800,480, Page[6], FonColor[3], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("РАЗРЕШЕНА", 9,585,  140, BackgroundColor, BasicSymbolColor, Page[6]);
+				
+				Short_Left_Colored_RU_DrawString_32("Время рабАНН2", 13,30,  170, FonColor[4], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.time_of_work_pump2,0, 3, Control_DB.RazrPointer, 120,  5, 470, 170, 800,480, Page[6], FonColor[4], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("Ч", 1,585,  170, BackgroundColor, BasicSymbolColor, Page[6]);
+
+				Short_Left_Colored_RU_DrawString_32("Насос АНН3", 10,30,  200, FonColor[5], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.work_pump1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 200, 800,480, Page[6], FonColor[1], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("РАЗРЕШЕНА", 9,585,  200, BackgroundColor, BasicSymbolColor, Page[6]);
+				
+				Short_Left_Colored_RU_DrawString_32("Время рабАНН3", 13,30,  230, FonColor[6], BasicSymbolColor, Page[6]);
+				Short_Left_Colored_RU_DrawString_32("Ч", 1,585,  230, BackgroundColor, BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.time_of_work_pump3,0, 3, Control_DB.RazrPointer, 120,  5, 470, 230, 800,480, Page[6], FonColor[6], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+
+				Control_DB.MenuPointerMAX = 6;
 			}
 			else
 			{
-				Centred_DrawNumber_16_32bit_controled(&BUV_settings.pump_mode,0, 1, Control_DB.RazrPointer, 1,   0, 470, 50, 800,480, Page[6], FonColor[0], BasicSymbolColor, Arial_11x18_Table, 11, 18);
 				Short_Left_Colored_RU_DrawString_32("Ручн", 4,600,  50, BackgroundColor, BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Конц эмульсии    ", 17,30,  80, FonColor[1], BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Настр промыв фильт", 18, 30, 110, FonColor[2], BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Время промыв", 	12,	30, 140, FonColor[3], BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Настр мин уровн конц", 20, 30, 170, FonColor[4], BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Настр уровн авт разгр", 21, 30, 200, FonColor[5], BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("Сброс настр по умол", 19, 	30, 230, FonColor[6], BasicSymbolColor, Page[6]);
-				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 50, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 170, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 200, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 80, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-//				Short_Left_Colored_RU_DrawString_32("По переп дав", 12,585,  110, BackgroundColor, BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("По врем", 7,600,  90, BackgroundColor, BasicSymbolColor, Page[6]);
-//				Short_Left_Colored_RU_DrawString_32("механ", 5,600,  200, BackgroundColor, BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("моль/л", 6,600,  170, BackgroundColor, BasicSymbolColor, Page[6]);
-				Short_Left_Colored_RU_DrawString_32("эл.магн", 7,600,  180, BackgroundColor, BasicSymbolColor, Page[6]);
+
+				if(Work_regim_zaliv_1.execute)
+						{
+							Work_regim_zaliv_1.execute = 0;
+							Draw_Rectangle(BackgroundColor, 30,   68,  770, 600, Page[6], 800, 480);
+						}
+ 				Short_Left_Colored_RU_DrawString_32("Конц эмульсии    ", 17,30,  80, FonColor[1], BasicSymbolColor, Page[6]);
+ 				Centred_DrawNumber_16_32bit_controled(&BUV_settings.conc_emul,0, 2, Control_DB.RazrPointer, 50,   10, 470, 80, 800,480, Page[6], FonColor[1], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+//
+//
+//
+ 				Short_Left_Colored_RU_DrawString_32("Настр промыв фильт", 18, 30, 110, FonColor[2], BasicSymbolColor, Page[6]);
+ 				Centred_DrawNumber_16_32bit_controled(&BUV_settings.flushing_filter,0, 1, Control_DB.RazrPointer, 1,   0, 470, 110, 800,480, Page[6], FonColor[2], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+// 				Short_Left_Colored_RU_DrawString_32("По врем", 7,585,  110, BackgroundColor, BasicSymbolColor, Page[6]);
+
+ 				Short_Left_Colored_RU_DrawString_32("По переп дав", 12,585,  110, BackgroundColor, BasicSymbolColor, Page[6]);
+
+				
+ 				Short_Left_Colored_RU_DrawString_32("Время промыв", 	12,	30, 140, FonColor[3], BasicSymbolColor, Page[6]);
+				Centred_DrawNumber_16_32bit_controled(&BUV_settings.time_flushing,0, 1, Control_DB.RazrPointer, 1,   0, 470, 140, 800,480, Page[6], FonColor[3], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+				Short_Left_Colored_RU_DrawString_32("C", 6,600,  140, BackgroundColor, BasicSymbolColor, Page[6]);
+
+
+
+ 				Short_Left_Colored_RU_DrawString_32("Настр мин уровн конц", 20, 30, 170, FonColor[4], BasicSymbolColor, Page[6]);
+ 				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 170, 800,480, Page[6], FonColor[4], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+ 				Short_Left_Colored_RU_DrawString_32("моль/л", 6,600,  170, BackgroundColor, BasicSymbolColor, Page[6]);
+
+ 				Short_Left_Colored_RU_DrawString_32("Настр уровн авт разгр", 21, 30, 200, FonColor[5], BasicSymbolColor, Page[6]);
+ 				Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 200, 800,480, Page[6], FonColor[5], BasicSymbolColor, Arial_11x18_Table, 11, 18);
+ //				Short_Left_Colored_RU_DrawString_32("механ", 5,600,  200, BackgroundColor, BasicSymbolColor, Page[6]);
+ 				Short_Left_Colored_RU_DrawString_32("эл.магн", 7,600,  200, BackgroundColor, BasicSymbolColor, Page[6]);
+
+ 				Short_Left_Colored_RU_DrawString_32("Сброс настр по умол", 19, 	400, 230, FonColor[6], BasicSymbolColor, Page[6]);
+				
+				
+
+ 				Control_DB.MenuPointerMAX = 6;
 			}
-			//
-//			Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 50, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-//			Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 170, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-//			Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 200, 800,480, Page[6], 	GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-//			Centred_DrawNumber_16_32bit_controled(1,0, 1, Control_DB.RazrPointer, 1,   0, 470, 80, 800,480, Page[6], GrayColor, BasicSymbolColor, Arial_11x18_Table, 11, 18);
-//			Short_Left_Colored_RU_DrawString_32("По переп дав", 12,585,  110, BackgroundColor, BasicSymbolColor, Page[6]);
-////			Short_Left_Colored_RU_DrawString_32("По врем", 7,600,  90, BackgroundColor, BasicSymbolColor, Page[6]);
-//			Short_Left_Colored_RU_DrawString_32("механ", 5,600,  200, BackgroundColor, BasicSymbolColor, Page[6]);
-//			Short_Left_Colored_RU_DrawString_32("моль/л", 6,600,  170, BackgroundColor, BasicSymbolColor, Page[6]);
-////			Short_Left_Colored_RU_DrawString_32("эл.магн", 7,600,  180, BackgroundColor, BasicSymbolColor, Page[6]);
-			Control_DB.MenuPointerMAX = 6;
+	
+
 
 		break;
 		case 7: // Заводские настройки

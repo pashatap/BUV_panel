@@ -7,7 +7,7 @@
 ../Core/Src/ADC_functions.c:245:6:Channel_Soft_Switch	0	static
 ../Core/Src/ADC_functions.c:276:6:Z_filter	0	static
 ../Core/Src/ADC_functions.c:79:6:ADC_deafult	8	static
-../Core/Src/ADC_functions.c:292:6:frequency_meter	0	static
+../Core/Src/ADC_functions.c:292:6:frequency_meter	8	static
 ../Core/Src/ADC_functions.c:337:6:phase_delta_meter	24	static
 ../Core/Src/ADC_functions.c:385:6:MAX	0	static
 ../Core/Src/ADC_functions.c:400:6:MIN	0	static

@@ -37,18 +37,28 @@ typedef struct
 
 } Settings_panel; // настройки которые задаются и сохраняются только в этой панели
 
+typedef struct data_types
+{
+	uint8_t trigger;
+	uint8_t trigger_mirror;
+	uint8_t execute;
+} background_zaliv;
+
+
 typedef struct
 {
-
-
-
-
-
-	uint8_t pump_mode;							//
-
-
-
-
+//настройки станции насосной
+	int32_t time_of_work_pump1;
+	int32_t time_of_work_pump2;
+	int32_t time_of_work_pump3;
+	int32_t pump_mode;
+	int32_t flushing_filter;
+	int32_t conc_emul;
+	int32_t time_flushing;
+	int32_t work_pump1;
+	int32_t work_pump2;
+	int32_t work_pump3;
+								//
 
 	// Заводские настройки
 	int32_t	Max_ANN_operation; 					// Макс насосов работающих одновременно
