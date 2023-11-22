@@ -1,4 +1,5 @@
-Core/Src/Screens.o: ../Core/Src/Screens.c \
+Core/Src/Function_for_screen.o: ../Core/Src/Function_for_screen.c \
+ ../Core/Inc/Function_for_screen.h ../Core/Inc/Font_Processor.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f429xx.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
@@ -32,9 +33,9 @@ Core/Src/Screens.o: ../Core/Src/Screens.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/fonts.h ../Core/Inc/Font_Processor.h \
- ../Core/Inc/data_types.h ../Core/Inc/Function_for_screen.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+../Core/Inc/Function_for_screen.h:
+../Core/Inc/Font_Processor.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f429xx.h:
 ../Drivers/CMSIS/Include/core_cm4.h:
@@ -69,7 +70,3 @@ Core/Src/Screens.o: ../Core/Src/Screens.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/fonts.h:
-../Core/Inc/Font_Processor.h:
-../Core/Inc/data_types.h:
-../Core/Inc/Function_for_screen.h:

@@ -315,6 +315,21 @@ void KeyboardWork(void)
 		screen = screen_save;
 		KeysFlash.ESC 	= 0;
 	}
+	if (KeysFlash.ESC & (screen == 8))
+	{
+		screen = 6;
+		KeysFlash.ESC 	= 0;
+	}
+	if (KeysFlash.ESC & (screen == 9))
+		{
+			screen = 6;
+			KeysFlash.ESC 	= 0;
+		}
+	if (KeysFlash.ESC & (screen == 14))
+		{
+			screen = 6;
+			KeysFlash.ESC 	= 0;
+		}
 	if(KeysFlash.ESC & (((screen >= 5) & (screen <= 7)) | (screen == 21)))
 	{
 		screen 			= 1;
@@ -474,13 +489,29 @@ void KeyboardWork(void)
 			}
 		}
 
+		if ((screen==6) & (Control_DB.MenuPointer == 7))
+		{
+				screen = 8;
+		}
+		if((screen == 6) &(Control_DB.MenuPointer == 8))
+			{
+				screen = 9;
+			}
+		if((screen == 6) &(Control_DB.MenuPointer == 14))
+		{
+			screen = 14;
+		}
+
+
 		if((screen == 7) & (Control_DB.MenuPointer == 4))
 		{
 			BUV_settings_global.work_on_water_enable = !BUV_settings_global.work_on_water_enable;
 		}
 
-
-
+		if ((screen==14)&(Control_DB.MenuPointer == 1))
+		{
+			screen =7;
+		}
 		if(Control_DB.RazrPointerMAX)
 		{
 			if(Control_DB.RazrPointer)

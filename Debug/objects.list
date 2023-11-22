@@ -1,4 +1,5 @@
 "./Core/Src/ADC_functions.o"
+"./Core/Src/Function_for_screen.o"
 "./Core/Src/MB_Slave_Lib.o"
 "./Core/Src/SPI_flash.o"
 "./Core/Src/Screens.o"

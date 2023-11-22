@@ -10,5 +10,5 @@
 ../Core/Src/stm32f4xx_it.c:260:6:TIM5_IRQHandler	8	static
 ../Core/Src/stm32f4xx_it.c:277:6:UART7_IRQHandler	8	static
 ../Core/Src/stm32f4xx_it.c:294:6:KeyboardWork	24	static
-../Core/Src/stm32f4xx_it.c:559:6:KeyboardCheck	8	static
-../Core/Src/stm32f4xx_it.c:615:6:KeyboardClear	4	static
+../Core/Src/stm32f4xx_it.c:590:6:KeyboardCheck	8	static
+../Core/Src/stm32f4xx_it.c:646:6:KeyboardClear	4	static

@@ -48,9 +48,7 @@ typedef struct data_types
 typedef struct
 {
 //настройки станции насосной
-	int32_t time_of_work_pump1;
-	int32_t time_of_work_pump2;
-	int32_t time_of_work_pump3;
+	int32_t time_of_work_pump;
 	int32_t pump_mode;
 	int32_t flushing_filter;
 	int32_t conc_emul;
@@ -58,6 +56,23 @@ typedef struct
 	int32_t work_pump1;
 	int32_t work_pump2;
 	int32_t work_pump3;
+	int32_t count_work_pump;
+	int32_t work_auto_unload;
+	int32_t min_level_emul;
+	int32_t min_level_conc;
+	int32_t min_level_emul_UP;
+	int32_t max_level_emul_UP;
+	int32_t flushing_mode_pressure_filter;
+	int32_t period_flushing_pressure_filter;
+	int32_t time_flushing_pressure_filter;
+	int32_t difference_pressure_filter;
+	int32_t time_control_pressure_filter;
+	int32_t flushing_mode_water_filter;
+	int32_t period_flushing_water_filter;
+	int32_t time_flushing_water_filter;
+	int32_t difference_water_filter;
+	int32_t time_control_water_filter;
+
 								//
 
 	// Заводские настройки

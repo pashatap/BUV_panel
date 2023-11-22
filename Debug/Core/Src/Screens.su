@@ -1,2 +1,2 @@
-../Core/Src/Screens.c:71:6:Screens_init	40	static
-../Core/Src/Screens.c:223:6:Set_Screen	88	static
+../Core/Src/Screens.c:72:6:Screens_init	40	static
+../Core/Src/Screens.c:236:6:Set_Screen	88	static

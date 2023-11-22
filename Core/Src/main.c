@@ -152,10 +152,7 @@ int main(void)
 	PassW_block.PassWord 		=    0;
 	PassW_block.PassWord_true 	= 1234;
 	PassW_block.PassWord_DATA   = 3850;
-
-  BUV_settings.time_of_work_pump1 = 5;
-  BUV_settings.time_of_work_pump2 = 5;
-  BUV_settings.time_of_work_pump3 = 5;
+  BUV_settings.time_of_work_pump = 5;
   BUV_settings.flushing_filter = 1;
   BUV_settings.conc_emul = 15;
   BUV_settings.pump_mode = 1;
@@ -163,6 +160,23 @@ int main(void)
   BUV_settings.work_pump1 = 1;
   BUV_settings.work_pump2 = 1;
   BUV_settings.work_pump3 = 1;
+  BUV_settings.count_work_pump = 1;
+  BUV_settings.work_auto_unload = 1;
+  BUV_settings.min_level_emul = 50;
+  BUV_settings.min_level_conc = 10;
+  BUV_settings.min_level_emul_UP = 50;
+  BUV_settings.max_level_emul_UP = 50;
+  BUV_settings.flushing_mode_pressure_filter = 1;
+  BUV_settings.period_flushing_pressure_filter = 10;
+  BUV_settings.time_flushing_pressure_filter = 2;
+  BUV_settings.difference_pressure_filter = 02;
+  BUV_settings.time_control_pressure_filter = 3;
+  BUV_settings.flushing_mode_water_filter = 1;
+  BUV_settings.period_flushing_water_filter = 10;
+  BUV_settings.time_flushing_water_filter = 2;
+  BUV_settings.difference_water_filter = 02;
+  BUV_settings.time_control_water_filter = 3;
+
 
 	memcpy(&Settings_DB, 0x08060000, sizeof(Settings_DB)); // чтение настроек с флеш
 	Settings_DB.FlashWriteFlag	 = 0;
